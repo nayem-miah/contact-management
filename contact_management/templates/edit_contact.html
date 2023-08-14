@@ -19,7 +19,7 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Create Contact</h2>
+					<h2 class="heading-section">Update Contact</h2>
 				</div>
 			</div>
 			<div class="row justify-content-center">
@@ -36,32 +36,34 @@
 										<div class="row">
 											<div class="col-md-12">
 												<div class="form-group">
-													<input type="text" class="form-control" name="name" id="name" placeholder="Name">
+													<label for="lname">Name:<input type="text" value="{{ item.name }}" class="form-control" name="name" id="name"></label>
 												</div>
 											</div>
 											<div class="col-md-12"> 
 												<div class="form-group">
-													<input type="email" class="form-control" name="email" id="email" placeholder="Email">
+													<label for="lname">Email:<input type="email" value="{{ item.email }}" class="form-control" name="email" id="email"></label>
 												</div>
 											</div>
 											<div class="col-md-12">
 												<div class="form-group">
-													<input type="number" class="form-control" name="phone" id="subject" placeholder="Phone">
+													<label for="lname">Phone:<input type="number" value="{{ item.phone_number }}" class="form-control" name="phone" id="subject"></label>
 												</div>
 											</div>
 											<div class="col-md-12">
 												<div class="form-group">
-													<input type="text" name="address" class="form-control" id="message" cols="30" rows="6" placeholder="Address"></input>
+													<label for="lname">Address:<input type="text" value="{{ item.address }}"  name="address" class="form-control" id="message" cols="30" rows="6"></input></label>
 												</div>
 											</div>
 											<div class="col-md-12">
 												<div class="form-group">
-													<input type="submit" value="Save contact" class="btn btn-primary">
+													<input type="submit" value="Update" class="btn btn-primary">
+										             <a class="btn btn-danger" href="{% url 'delete_contact' item.pk %}"> Delete </a>
 													<div class="submitting"></div>
 												</div>
 											</div>
 										</div>
 									</form>
+                                    
 								</div>
 							</div>
 				

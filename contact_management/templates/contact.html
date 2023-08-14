@@ -32,6 +32,9 @@
 				<li class="nav-item active">
 				  <a class="nav-link btn-primary" href="{% url 'add_contact' %}">Add Contact <span class="sr-only">(current)</span></a>
 				</li>
+				<li class="nav-item active">
+					<a class="nav-link btn-success" href="{% url 'user_notes' %}">Notes<span class="sr-only">(current)</span></a>
+				  </li>
 			  </ul>
 			  <form class="form-inline my-2 my-lg-0">
 				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -58,6 +61,7 @@
 						      <th>Phone</th>
 						      <th>Email</th>
 						      <th>Address</th>
+						      <th>Edit</th>
 						    </tr>
 						  </thead>
 						  <tbody>
@@ -68,6 +72,7 @@
 						      <td>{{ch.phone_number}}</td>
 						      <td>{{ch.email}}</td>
 						      <td>{{ch.address}}</td>
+						      <td><a href="{% url 'edit_contact' ch.id %}">Edit</a></td>
 						    </tr>
                             {%endfor%}
 						    

@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .models import Contact,UserNote
 from django.contrib.auth.decorators import login_required
 
@@ -22,14 +22,13 @@ def user_notes(request):
     notes = UserNote.objects.filter(user=user)
     return render(request, 'notes.html', {'notes': notes})
 
-
+@login_required
 def add_contact(request):
     if request.method == 'POST':
         name = request.POST['name']
         email = request.POST['email']
         phone = request.POST['phone']
         address = request.POST['address']
-        # photo = request.POST['photo']
         print(name, email, phone, address)
         contact = Contact(name= name,email=email,phone_number=phone,
                           address=address, user = request.user)
@@ -37,14 +36,28 @@ def add_contact(request):
         return redirect('contact')
     return render(request, 'add.html')
 
-    
-    # if request.method == 'POST':
-    #     name = request.POST['name']
-    #     email = request.POST['email']
-    #     phone = request.POST['phone']
-    #     message = request.POST['message']
-    #     contact = Contact(name=name,email=email,phone=phone,message=message,user=request.user)
-    #     contact.save()
-    #     return redirect('contact')
-    # else:
-    #     return render(request, 'add_contact.html')
+@login_required
+def edit_contact(request,pk=None):
+     item = get_object_or_404(Contact, id=pk)
+
+     if request.method == 'POST':
+         name = request.POST['name']
+         email = request.POST['email']
+         phone = request.POST['phone']
+         address = request.POST['address']
+        
+         item.name = name
+         item.email = email
+         item.phone_number = phone
+         item.address = address
+         item.save()
+         return redirect('contact')
+         
+     return render(request, 'edit_contact.html', {'item': item})
+
+
+@login_required
+def delete_contact(request,pk=None):
+    item = get_object_or_404(Contact, id=pk)
+    item.delete()
+    return redirect('contact')
