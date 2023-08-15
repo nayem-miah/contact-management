@@ -1,21 +1,54 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Contact,UserNote
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+
 
 # Create your views here.
-@login_required
+
 def contact(request):
-    template = 'contact.html'
-    user = request.user
-    checkdata = Contact.objects.filter(user=user)
-    context = {
-        'check': checkdata
-    }
+    if request.user.is_authenticated:
+        template = 'contact.html'
+        user = request.user
+        checkdata = Contact.objects.filter(user=user)
+        context = {
+            'check': checkdata
 
-    return render(request,context=context,template_name = template)
-
-
-
+        }
+        return render(request,context=context,template_name = template)
+    else:
+        return redirect('login')
+      
+      
+def _login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            # User is authenticated, log the user in
+            login(request, user)
+            return redirect('contact')
+        else:
+            return render(request, 'login.html', {'error': 'Invalid Credentials'})
+           
+    return render(request, 'login.html')
+def sign_up(request):
+   if request.user.is_authenticated:
+    return redirect('contact') 
+   else:
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = User.objects.create_user(username=username, password = password)
+        user.save()
+        return redirect('login')
+    return render(request,'sign_up.html')
+   
+def log_out(request):
+    logout(request)
+    return redirect('login')
 @login_required
 def user_notes(request):
     user = request.user
