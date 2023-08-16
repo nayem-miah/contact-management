@@ -94,3 +94,9 @@ def delete_contact(request,pk=None):
     item = get_object_or_404(Contact, id=pk)
     item.delete()
     return redirect('contact')
+
+def search_contacts(request):
+    
+    searched = request.GET['searched']
+    searched_contact = Contact.objects.filter(name__contains = searched)
+    return render(request,'search.html', {'searched':searched_contact})
